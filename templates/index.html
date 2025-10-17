@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SiloganExpress</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6); }
+        .modal-content { background-color: #fff; margin: 15% auto; padding: 20px; border-radius: 10px; width: 80%; max-width: 400px; text-align: center; }
+        .close { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .close:hover { color: #000; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        table, th, td { border: 1px solid #333; }
+        th, td { padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>SiloganExpress</h1>
+            <p>Welcome, {{ name }}!</p>
+            <p>Silog Meals, Anytime, Express!</p>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#users">Users</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero-banner" style="background-image: url('{{ url_for('static', filename='sisig.jpg') }}');">
+        <div class="overlay"></div>
+        <div class="hero-content">
+            <img src="{{ url_for('static', filename='parekoy.png') }}" alt="Restaurant Logo" class="restaurant-logo">
+            <h1>SiloganExpress</h1>
+            <p>Silog Meals, Anytime, Express!</p>
+        </div>
+    </section>
+
+    <!-- MENU -->
+    <section id="menu" class="menu">
+        <div class="menu-layout">
+            <aside class="categories">
+                <h3>Categories</h3>
+                <ul>
+                    <li><a href="#silog">Silog Meals</a></li>
+                    <li><a href="#appetizers">Appetizers</a></li>
+                    <li><a href="#drinks">Drinks</a></li>
+                </ul>
+            </aside>
+
+            <div class="menu-items">
+                <h2 id="silog">Silog Meals</h2>
+                <div class="menu-card" data-name="Tapsilog" data-price="89" data-ingredients="Beef tapa, garlic rice, fried egg">
+                    <img src="{{ url_for('static', filename='tapsilog.jpg') }}" alt="Tapsilog">
+                    <div class="menu-info"><h3>Tapsilog</h3><p>₱89.00</p></div>
+                    <button>+</button>
+                </div>
+                <div class="menu-card" data-name="Longsilog" data-price="79" data-ingredients="Longganisa, garlic rice, fried egg">
+                    <img src="{{ url_for('static', filename='longsilog.jpg') }}" alt="Longsilog">
+                    <div class="menu-info"><h3>Longsilog</h3><p>₱79.00</p></div>
+                    <button>+</button>
+                </div>
+                <div class="menu-card" data-name="Bangsilog" data-price="99" data-ingredients="Bangus, garlic rice, fried egg">
+                    <img src="{{ url_for('static', filename='bangsilog.jpg') }}" alt="Bangsilog">
+                    <div class="menu-info"><h3>Bangsilog</h3><p>₱99.00</p></div>
+                    <button>+</button>
+                </div>
+                <div class="menu-card" data-name="Sisilog" data-price="105" data-ingredients="Sisig, garlic rice, fried egg">
+                    <img src="{{ url_for('static', filename='sisilog.jpg') }}" alt="Sisilog">
+                    <div class="menu-info"><h3>Sisilog</h3><p>₱105.00</p></div>
+                    <button>+</button>
+                </div>
+
+                <h2 id="appetizers">Appetizers</h2>
+                <div class="menu-card" data-name="Pork Sisig" data-price="195" data-ingredients="Pork, onions, chili, mayonnaise">
+                    <img src="{{ url_for('static', filename='porksisig.jpg') }}" alt="Pork Sisig">
+                    <div class="menu-info"><h3>Pork Sisig</h3><p>₱195.00</p></div>
+                    <button>+</button>
+                </div>
+                <div class="menu-card" data-name="Lechon Kawali" data-price="192" data-ingredients="Crispy pork belly, garlic sauce">
+                    <img src="{{ url_for('static', filename='lechon.jpg') }}" alt="Lechon Kawali">
+                    <div class="menu-info"><h3>Lechon Kawali</h3><p>₱192.00</p></div>
+                    <button>+</button>
+                </div>
+                <div class="menu-card" data-name="French Fries" data-price="108" data-ingredients="Potatoes, salt, oil">
+                    <img src="{{ url_for('static', filename='fries.jpg') }}" alt="French Fries">
+                    <div class="menu-info"><h3>French Fries</h3><p>₱108.00</p></div>
+                    <button>+</button>
+                </div>
+
+                <h2 id="drinks">Drinks</h2>
+                <div class="menu-card" data-name="Iced Tea" data-price="45" data-ingredients="Tea, sugar, ice">
+                    <img src="{{ url_for('static', filename='icedtea.jpg') }}" alt="Iced Tea">
+                    <div class="menu-info"><h3>Iced Tea</h3><p>₱45.00</p></div>
+                    <button>+</button>
+                </div>
+                <div class="menu-card" data-name="Bottled Water" data-price="20" data-ingredients="Pure water, bottled">
+                    <img src="{{ url_for('static', filename='water.jpg') }}" alt="Bottled Water">
+                    <div class="menu-info"><h3>Bottled Water</h3><p>₱20.00</p></div>
+                    <button>+</button>
+                </div>
+            </div>
+
+            <aside class="cart">
+                <h3>Your Selections</h3>
+                <ul id="cart-list"></ul>
+                <div class="subtotal">
+                    <p id="subtotal">Subtotal: ₱0.00</p>
+                    <p>+ ₱49 delivery fee</p>
+                </div>
+                <button class="checkout" id="checkoutBtn">🛒 Checkout</button>
+            </aside>
+        </div>
+    </section>
+
+    <!-- USERS TABLE -->
+    <section id="users">
+        <h2>Registered Users</h2>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+            </tr>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.fname }} {{ user.lname }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.phone }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="about">
+        <div class="about-container">
+            <h2>About SiloganExpress</h2>
+            <p>SiloganExpress is a simple online food ordering system designed to make ordering silog meals and other dishes easier and faster.</p>
+            <ul>
+                <li>Sign up or log in quickly using their phone number</li>
+                <li>Browse through available menu categories like Silog Meals, Appetizers, and Drinks</li>
+                <li>Add items to their cart and see the subtotal with delivery fee</li>
+            </ul>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 SiloganExpress. All rights reserved.</p>
+    </footer>
+
+    <!-- INGREDIENTS MODAL -->
+    <div id="ingredientsModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3 id="modalDishName"></h3>
+            <p id="modalIngredients"></p>
+        </div>
+    </div>
+
+    <script>
+        // CART LOGIC
+        const buttons = document.querySelectorAll('.menu-card button');
+        const cartList = document.getElementById('cart-list');
+        const subtotalDisplay = document.getElementById('subtotal');
+        let subtotal = 0;
+
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                const card = button.closest('.menu-card');
+                const name = card.dataset.name;
+                const price = parseFloat(card.dataset.price);
+
+                const li = document.createElement('li');
+                li.textContent = `${name} - ₱${price.toFixed(2)}`;
+                cartList.appendChild(li);
+
+                subtotal += price;
+                subtotalDisplay.textContent = `Subtotal: ₱${subtotal.toFixed(2)}`;
+            });
+        });
+
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        checkoutBtn.addEventListener('click', () => {
+            const deliveryFee = 49;
+            const total = subtotal + deliveryFee;
+            window.location.href = `/checkout?total=${total.toFixed(2)}`;
+        });
+
+        // MODAL LOGIC
+        const modal = document.getElementById("ingredientsModal");
+        const modalDishName = document.getElementById("modalDishName");
+        const modalIngredients = document.getElementById("modalIngredients");
+        const closeBtn = document.querySelector(".close");
+
+        document.querySelectorAll('.menu-card img').forEach(img => {
+            img.addEventListener('click', () => {
+                const card = img.closest('.menu-card');
+                modalDishName.textContent = card.dataset.name;
+                modalIngredients.textContent = card.dataset.ingredients;
+                modal.style.display = "block";
+            });
+        });
+
+        closeBtn.addEventListener('click', () => { modal.style.display = "none"; });
+        window.addEventListener('click', (e) => { if (e.target == modal) modal.style.display = "none"; });
+    </script>
+</body>
+</html>

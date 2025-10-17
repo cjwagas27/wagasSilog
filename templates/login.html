@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - SiloganExpress</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="auth-body">
+        <div class="auth-container">
+            <h2>Login</h2>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                <ul>
+                  {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            {% endwith %}
+
+            <form method="POST" action="{{ url_for('login') }}">
+                <div class="auth-input">
+                    <label>Username</label>
+                    <input type="text" name="username" placeholder="Enter username" required>
+                </div>
+                <div class="auth-input">
+                    <label>Password</label>
+                    <input type="password" name="password" placeholder="Enter password" required>
+                </div>
+                <button type="submit" class="auth-btn">Login</button>
+            </form>
+            <div class="switch-auth">
+                Don't have an account? <a href="{{ url_for('signup') }}">Sign up here</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - SiloganExpress</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+            margin: 0;
+            background-color: #fafafa;
+            color: #333;
+        }
+
+        header {
+            background-color: #2e7d32;
+            color: white;
+            padding: 20px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        nav a {
+            color: white;
+            margin-left: 15px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            max-width: 600px;
+            margin: 60px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        main h2 {
+            color: #2e7d32;
+            margin-bottom: 20px;
+        }
+
+        .total {
+            font-size: 28px;
+            font-weight: bold;
+            color: #ff6b00;
+            margin: 10px 0;
+        }
+
+        .thankyou {
+            margin: 20px 0;
+            font-size: 16px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #2e7d32;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #256428;
+        }
+
+        footer {
+            background-color: #2e7d32;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>SiloganExpress Checkout</h1>
+        <nav>
+            <a href="{{ url_for('index') }}">Home</a> |
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Total Payment</h2>
+        <div class="total">₱{{ total }}</div>
+        <p class="thankyou">Thank you for ordering with <strong>SiloganExpress!</strong></p>
+        <a href="{{ url_for('index') }}" class="btn">← Back to Home</a>
+    </main>
+
+    <footer>
+        &copy; 2025 SiloganExpress. All rights reserved.
+    </footer>
+</body>
+</html>
