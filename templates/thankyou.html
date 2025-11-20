@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You - SiloganExpress</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+            margin: 0;
+            background-color: #f9fafb;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .thankyou-box {
+            background: white;
+            padding: 40px 60px;
+            border-radius: 16px;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            max-width: 480px;
+            width: 100%;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .checkmark {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background-color: #2e7d32;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            animation: popIn 0.6s ease;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            80% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+
+        .checkmark svg {
+            width: 35px;
+            height: 35px;
+            fill: none;
+            stroke: white;
+            stroke-width: 4;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .thankyou-box h2 {
+            color: #2e7d32;
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .thankyou-box p {
+            margin: 8px 0;
+            font-size: 15px;
+            color: #555;
+        }
+
+        .order-details {
+            text-align: left;
+            margin-top: 25px;
+            background: #f1f8e9;
+            border-left: 5px solid #2e7d32;
+            padding: 15px 20px;
+            border-radius: 10px;
+        }
+
+        .order-details p {
+            margin: 5px 0;
+            font-size: 15px;
+        }
+
+        .order-details strong {
+            color: #333;
+        }
+
+        .total {
+            font-weight: bold;
+            color: #ff6b00;
+            font-size: 16px;
+            margin-top: 5px;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 25px;
+            background-color: #2e7d32;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn:hover {
+            background-color: #256428;
+            transform: translateY(-2px);
+        }
+
+        footer {
+            background-color: #2e7d32;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="thankyou-box">
+            <div class="checkmark">
+                <svg viewBox="0 0 24 24">
+                    <path d="M20 6L9 17l-5-5"/>
+                </svg>
+            </div>
+
+            <h2>Order Confirmed!</h2>
+            <p>Thank you, <strong>{{ name }}</strong>!</p>
+            <p>Your delicious meal is being prepared. 🍽️</p>
+
+            <div class="order-details">
+                <p><strong>Address:</strong> {{ address }}</p>
+                <p><strong>Contact Number:</strong> {{ contact }}</p>
+                <p><strong>Payment Method:</strong> {{ payment_method }}</p>
+                <p class="total"><strong>Total:</strong> ₱{{ total }}</p>
+            </div>
+
+            <a href="{{ url_for('menu') }}" class="btn">Back to Menu</a>
+        </div>
+    </main>
+
+    <footer>
+        &copy; 2025 SiloganExpress. All rights reserved.
+    </footer>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - SiloganExpress</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #fffaf5;
+            margin: 0;
+            padding: 0;
+        }
+
+        header, footer {
+            background-color: #28a745;/* SiloganExpress green */
+            color: white;
+        }
+
+        header {
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            margin: 0;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+            margin: 0;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+        }
+
+        nav a.active {
+            border-bottom: 2px solid white;
+            padding-bottom: 2px;
+        }
+
+        /* --- About Section --- */
+        .about {
+            padding: 60px 10%;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .about-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+
+        .about-text {
+            flex: 1;
+            min-width: 320px;
+            animation: slideInLeft 1s ease-in;
+        }
+
+        .about-text h2 {
+            color: #2e8b57;
+            margin-bottom: 15px;
+        }
+
+        .about-text p {
+            line-height: 1.7;
+            color: #444;
+        }
+
+        .about-image {
+            flex: 1;
+            min-width: 320px;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            animation: slideInRight 1s ease-in;
+        }
+
+        /* ✨ Hover Animation for Image */
+        .about-image:hover {
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 12px 25px rgba(46, 139, 87, 0.3);
+        }
+
+        .mission-vision {
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        .mission-vision h3 {
+            color: #2e8b57;
+        }
+
+        .mission-vision p {
+            max-width: 700px;
+            margin: 10px auto 40px;
+            color: #555;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            font-size: 0.9rem;
+            margin-top: 60px;
+        }
+
+        /* --- Animations --- */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInLeft {
+            from { transform: translateX(-50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>SiloganExpress</h1>
+            <p>Welcome, {{ name }}!</p>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('menu') }}">Menu</a></li>
+                <li><a href="{{ url_for('aboutus') }}" class="active">About Us</a></li>
+                <li><a href="{{ url_for('contact') }}">Contact</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="about">
+        <div class="about-container">
+            <div class="about-text">
+                <h2>Our Story</h2>
+                <p>
+                    SiloganExpress began as a humble eatery in the heart of Cebu, born from a passion for serving hearty, affordable Filipino comfort food. 
+                    Since our first branch opened in Lower Calajoan, Minglanilla, we’ve been dedicated to bringing the authentic taste of silog meals to every table. 
+                    Our journey is fueled by love for food and community — making every bite a taste of home.
+                </p>
+            </div>
+            <img src="{{ url_for('static', filename='restaurant.jpg') }}" alt="SiloganExpress Restaurant" class="about-image">
+        </div>
+
+        <div class="mission-vision">
+            <h3>Our Mission</h3>
+            <p>
+                To serve delicious, high-quality silog meals that bring joy and satisfaction to every customer, 
+                using fresh ingredients and heartfelt service.
+            </p>
+
+            <h3>Our Vision</h3>
+            <p>
+                To be the go-to destination for Filipino comfort food, spreading the love for silog across 
+                the Philippines and beyond.
+            </p>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 SiloganExpress. All rights reserved.</p>
+    </footer>
+</body>
+</html>

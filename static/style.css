@@ -35,7 +35,7 @@ nav a {
     text-decoration: none;
     font-weight: bold;
 }
-nav a:hover {
+nav a.active, nav a:hover {
     text-decoration: underline;
 }
 
@@ -72,11 +72,24 @@ nav a:hover {
     margin-bottom: 10px;
     background: #fff;
 }
+.hero-content .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #28a745;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+.hero-content .btn:hover {
+    background: #1ca345;
+}
 
 /* ================= MENU LAYOUT ================= */
 .menu-layout {
     display: grid;
-    grid-template-columns: 200px 1fr 250px;
+    grid-template-columns: 220px 1fr 280px;
     gap: 20px;
     padding: 20px;
 }
@@ -114,7 +127,7 @@ nav a:hover {
 .menu-items {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
 }
 .menu-items h2 {
     margin: 20px 0 10px;
@@ -138,12 +151,12 @@ nav a:hover {
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 .menu-card img {
-    width: 70px;
-    height: 70px;
+    width: 90px;
+    height: 90px;
     object-fit: cover;
     border-radius: 8px;
     flex-shrink: 0;
-    cursor: pointer; /* Make image clickable */
+    cursor: pointer;
 }
 .menu-info {
     flex: 1;
@@ -163,7 +176,7 @@ nav a:hover {
     border: none;
     color: #fff;
     font-size: 18px;
-    padding: 5px 12px;
+    padding: 6px 12px;
     border-radius: 5px;
     cursor: pointer;
     width: 40px;
@@ -179,10 +192,21 @@ nav a:hover {
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 15px;
+    height: fit-content;
 }
 .cart h3 {
     margin-bottom: 10px;
     color: #28a745;
+}
+.cart ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 300px;
+    overflow-y: auto;
+}
+.cart li {
+    margin-bottom: 8px;
 }
 .subtotal {
     margin: 15px 0;
@@ -202,54 +226,59 @@ nav a:hover {
     background: #1ca345;
 }
 
-/* ================= ABOUT ================= */
-.about {
-    padding: 60px 20px;
-    background: #f8f9fa;
+/* ================= INGREDIENTS MODAL ================= */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    backdrop-filter: blur(3px);
     display: flex;
     justify-content: center;
+    align-items: center;
+    padding: 20px;
 }
-.about-container {
-    max-width: 900px;
-    background: #fff;
-    padding: 40px;
-    border-radius: 12px;
-    border: 1px solid #ddd;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    text-align: left;
-}
-.about-container h2 {
-    color: #28a745;
-    margin-bottom: 15px;
+.modal-content {
+    background: linear-gradient(145deg, #fff, #f0fff0);
+    border-radius: 15px;
+    width: 90%;
+    max-width: 400px;
     text-align: center;
-}
-.about-container h3 {
-    margin-top: 20px;
-    color: #28a745;
-}
-.about-container p {
-    font-size: 15px;
-    color: #444;
-    margin-bottom: 15px;
-}
-.about-container ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-.about-container ul li {
-    margin: 10px 0;
-    font-size: 15px;
-    color: #333;
+    padding: 25px 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
     position: relative;
-    padding-left: 25px;
+    animation: popIn 0.3s ease-out;
 }
-.about-container ul li::before {
-    content: "✔";
+@keyframes popIn {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+.modal-content h3 {
+    color: #28a745;
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+.modal-content p {
+    color: #333;
+    font-size: 15px;
+    margin-bottom: 20px;
+}
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 26px;
     color: #28a745;
     font-weight: bold;
-    position: absolute;
-    left: 0;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+.close:hover {
+    transform: rotate(90deg);
 }
 
 /* ================= FOOTER ================= */
@@ -269,6 +298,19 @@ footer {
         order: -1;
     }
 }
+@media (max-width: 600px) {
+    .menu-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .menu-card img {
+        width: 100%;
+        height: auto;
+    }
+    .menu-card button {
+        width: 100%;
+    }
+}
 
 /* ================= LOGIN & SIGNUP PAGE ================= */
 .auth-body {
@@ -281,30 +323,30 @@ footer {
 .auth-container {
     background: #fff;
     border: 1px solid #ddd;
-    padding: 30px;
+    padding: 25px;
     border-radius: 8px;
     text-align: center;
-    width: 350px;
+    width: 320px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 .auth-container.large {
-    width: 420px;
-    padding: 40px;
+    width: 380px;
+    padding: 35px;
 }
 .auth-container h2 {
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     color: #28a745;
 }
 .auth-input {
-    margin-bottom: 15px;
+    margin-bottom: 12px;
     text-align: left;
 }
 .auth-input input {
     width: 100%;
-    padding: 12px;
+    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    font-size: 15px;
+    font-size: 14px;
 }
 .auth-input input:focus {
     border-color: #28a745;
@@ -316,34 +358,34 @@ footer {
     gap: 8px;
 }
 .phone-input span {
-    font-size: 15px;
+    font-size: 14px;
     font-weight: bold;
     color: #333;
 }
 .phone-input input {
     flex: 1;
-    padding: 12px;
+    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    font-size: 15px;
+    font-size: 14px;
 }
 .auth-btn {
     background: #28a745;
     color: #fff;
     border: none;
     width: 100%;
-    padding: 12px;
-    font-size: 16px;
+    padding: 10px;
+    font-size: 15px;
     border-radius: 5px;
     cursor: pointer;
-    margin-top: 10px;
+    margin-top: 8px;
 }
 .auth-btn:hover {
     background: #1ca345;
 }
 .switch-auth, .terms {
-    margin-top: 15px;
-    font-size: 13px;
+    margin-top: 12px;
+    font-size: 12px;
     color: #555;
 }
 .switch-auth a, .terms a {
@@ -362,16 +404,16 @@ footer {
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 40px 20px;
+    padding: 30px 15px;
 }
 .checkout-page h1 {
     color: #28a745;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
 }
 .checkout-page p {
-    font-size: 16px;
+    font-size: 15px;
     color: #333;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 .checkout-page a {
     color: #28a745;
@@ -382,9 +424,65 @@ footer {
     text-decoration: underline;
 }
 
+/* ================= NEW CHECKOUT FORM ================= */
+.checkout-container {
+    max-width: 550px;
+    margin: 50px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border: 1px solid #ddd;
+}
+.checkout-container h1 {
+    color: #28a745;
+    text-align: center;
+    margin-bottom: 12px;
+}
+.checkout-container p {
+    text-align: center;
+    color: #555;
+    margin-bottom: 20px;
+}
+.checkout-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.form-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+.form-group label {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+.form-group input,
+.form-group select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+.checkout-btn {
+    background: #28a745;
+    border: none;
+    color: white;
+    font-size: 15px;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.checkout-btn:hover {
+    background: #1ca345;
+}
+
 /* ================= CONTACT PAGE ================= */
 .contact {
-    padding: 60px 20px;
+    padding: 50px 15px;
     background: #f8f9fa;
     display: flex;
     justify-content: center;
@@ -392,25 +490,25 @@ footer {
 .contact-container {
     max-width: 800px;
     background: #fff;
-    padding: 40px;
-    border-radius: 12px;
+    padding: 30px;
+    border-radius: 10px;
     border: 1px solid #ddd;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 .contact-container h2 {
     color: #28a745;
     text-align: center;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
 }
 .contact-container p {
     text-align: center;
     color: #555;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 .contact-form {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 12px;
 }
 .contact-form label {
     font-weight: bold;
@@ -418,34 +516,59 @@ footer {
 }
 .contact-form input,
 .contact-form textarea {
-    padding: 10px;
+    padding: 8px;
     border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 15px;
+    border-radius: 5px;
+    font-size: 14px;
 }
 .contact-form button {
     background: #28a745;
     color: white;
     border: none;
-    padding: 12px;
-    border-radius: 6px;
+    padding: 10px;
+    border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: bold;
 }
 .contact-form button:hover {
     background: #1ca345;
 }
 .contact-info {
-    margin-top: 30px;
+    margin-top: 25px;
     border-top: 1px solid #ddd;
-    padding-top: 15px;
+    padding-top: 12px;
     text-align: center;
     color: #444;
 }
+.branches {
+    margin-top: 30px;
+}
+.branch {
+    margin-bottom: 40px;
+}
+.branch h3 {
+    color: #28a745;
+    margin-bottom: 6px;
+}
+.branch p {
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+.map-container {
+    width: 100%;
+    height: 300px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 8px rgba(0,0,0,0.15);
+}
+iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
 
 /* ================= INGREDIENTS MODAL ================= */
-/* ================= INGREDIENTS MODAL (FUN VERSION) ================= */
 .modal {
     display: none;
     position: fixed;
@@ -456,70 +579,99 @@ footer {
     height: 100%;
     background-color: rgba(0,0,0,0.7);
     backdrop-filter: blur(3px);
-    display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: 15px;
 }
-
 .modal-content {
     background: linear-gradient(145deg, #fff, #f0fff0);
-    border-radius: 15px;
+    border-radius: 12px;
     width: 90%;
-    max-width: 400px;
+    max-width: 380px;
     text-align: center;
-    padding: 25px 20px;
+    padding: 20px;
     box-shadow: 0 8px 20px rgba(0,0,0,0.2);
     position: relative;
     animation: popIn 0.3s ease-out;
 }
-
 @keyframes popIn {
     0% { transform: scale(0.5); opacity: 0; }
     100% { transform: scale(1); opacity: 1; }
 }
-
 .modal-content h3 {
     color: #28a745;
-    margin-bottom: 10px;
-    font-size: 20px;
+    margin-bottom: 8px;
+    font-size: 18px;
 }
-
 .modal-content p {
     color: #333;
-    font-size: 15px;
-    margin-bottom: 20px;
+    font-size: 14px;
+    margin-bottom: 15px;
 }
-
 .close {
     position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 26px;
+    top: 8px;
+    right: 12px;
+    font-size: 24px;
     color: #28a745;
     font-weight: bold;
     cursor: pointer;
     transition: transform 0.2s ease;
 }
-
 .close:hover {
     transform: rotate(90deg);
 }
-
 .modal-content button {
     background: #28a745;
     color: #fff;
     border: none;
-    padding: 10px 20px;
-    border-radius: 12px;
-    font-size: 15px;
+    padding: 8px 15px;
+    border-radius: 10px;
+    font-size: 14px;
     font-weight: bold;
     cursor: pointer;
     transition: background 0.2s ease, transform 0.2s ease;
 }
-
 .modal-content button:hover {
     background: #1ca345;
     transform: scale(1.05);
 }
 
+/* ================= USERS PAGE ================= */
+.users-container {
+    margin: 40px auto;
+    max-width: 750px;
+    background: #fff;
+    padding: 25px 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    text-align: center;
+}
+.users-container h2 {
+    color: #28a745;
+    margin-bottom: 15px;
+    font-size: 24px;
+    letter-spacing: 1px;
+}
+.users-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+}
+.users-table th, .users-table td {
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+.users-table th {
+    background: #28a745;
+    color: white;
+    font-weight: bold;
+}
+.users-table tr:nth-child(even) {
+    background: #f9f9f9;
+}
+.users-table tr:hover {
+    background: #e7ffe7;
+    transition: 0.3s ease;
+}

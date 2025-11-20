@@ -4,35 +4,148 @@
     <meta charset="UTF-8">
     <title>Login - SiloganExpress</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <div class="auth-body">
-        <div class="auth-container">
-            <h2>Login</h2>
-            {% with messages = get_flashed_messages(with_categories=true) %}
-              {% if messages %}
-                <ul>
-                  {% for category, message in messages %}
-                    <li class="{{ category }}">{{ message }}</li>
-                  {% endfor %}
-                </ul>
-              {% endif %}
-            {% endwith %}
+    <style>
+        /* Flash message styling */
+        ul.flash-messages {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 15px;
+        }
 
-            <form method="POST" action="{{ url_for('login') }}">
-                <div class="auth-input">
-                    <label>Username</label>
-                    <input type="text" name="username" placeholder="Enter username" required>
-                </div>
-                <div class="auth-input">
-                    <label>Password</label>
-                    <input type="password" name="password" placeholder="Enter password" required>
-                </div>
-                <button type="submit" class="auth-btn">Login</button>
-            </form>
-            <div class="switch-auth">
-                Don't have an account? <a href="{{ url_for('signup') }}">Sign up here</a>
+        ul.flash-messages li {
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-bottom: 8px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        ul.flash-messages li.success {
+            background-color: #e8f8f5;
+            color: #1ca345;
+            border: 1px solid #28a745;
+        }
+
+        ul.flash-messages li.error {
+            background-color: #fdecea;
+            color: #e74c3c;
+            border: 1px solid #e74c3c;
+        }
+
+        /* Alignment + styling fix */
+        .auth-body {
+            background-color: #f7f7f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+
+        .auth-container {
+            background: white;
+            padding: 40px 35px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 380px;
+        }
+
+        .auth-container.large {
+            max-width: 400px;
+        }
+
+        .auth-container h2 {
+            text-align: center;
+            color: #27ae60;
+            margin-bottom: 25px;
+        }
+
+        .auth-input {
+            margin-bottom: 18px;
+        }
+
+        .auth-input label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #333;
+        }
+
+        .auth-input input {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            box-sizing: border-box; /* makes width even */
+            font-size: 15px;
+        }
+
+        .auth-btn {
+            width: 100%;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 12px 0;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .auth-btn:hover {
+            background-color: #219150;
+        }
+
+        .switch-auth {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .switch-auth a {
+            color: #27ae60;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .switch-auth a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body class="auth-body">
+    <div class="auth-container large">
+        <h2>Login</h2>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flash-messages">
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('login') }}">
+            <div class="auth-input">
+                <label>Username</label>
+                <input type="text" name="username" placeholder="Enter username" required>
             </div>
+
+            <div class="auth-input">
+                <label>Password</label>
+                <input type="password" name="password" placeholder="Enter password" required>
+            </div>
+
+            <button type="submit" class="auth-btn">Login</button>
+        </form>
+
+        <div class="switch-auth">
+            Don’t have an account?
+            <a href="{{ url_for('signup') }}">Sign up here</a>
         </div>
     </div>
 </body>

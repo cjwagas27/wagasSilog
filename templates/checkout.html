@@ -14,12 +14,13 @@
         }
 
         header {
-            background-color: #2e7d32;
+            background-color: #27ae60;
             color: white;
             padding: 20px 60px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
         }
 
         header h1 {
@@ -39,55 +40,104 @@
         }
 
         main {
-            max-width: 600px;
+            max-width: 650px;
             margin: 60px auto;
             background: white;
             padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            text-align: center;
+            border-radius: 14px;
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
         }
 
         main h2 {
-            color: #2e7d32;
-            margin-bottom: 20px;
+            color: #27ae60;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .summary-box {
+            background-color: #f1f8e9;
+            border-left: 5px solid #27ae60;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        .summary-box p {
+            margin: 5px 0;
+            font-weight: 500;
         }
 
         .total {
-            font-size: 28px;
+            font-size: 22px;
             font-weight: bold;
             color: #ff6b00;
-            margin: 10px 0;
         }
 
-        .thankyou {
-            margin: 20px 0;
-            font-size: 16px;
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            text-align: left;
+            font-weight: 600;
+            color: #444;
+            margin-bottom: 5px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #27ae60;
+            outline: none;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 10px;
         }
 
         .btn {
-            display: inline-block;
-            background-color: #2e7d32;
+            flex: 1;
+            background-color: #27ae60;
             color: white;
-            padding: 12px 25px;
+            padding: 14px;
+            border: none;
             border-radius: 8px;
-            text-decoration: none;
             font-weight: 600;
-            transition: background 0.3s ease;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s;
         }
 
         .btn:hover {
-            background-color: #256428;
+            background-color: #219150;
+            transform: translateY(-2px);
+        }
+
+        .btn-cancel {
+            background-color: #e74c3c;
+        }
+
+        .btn-cancel:hover {
+            background-color: #c0392b;
         }
 
         footer {
-            background-color: #2e7d32;
+            background-color: #27ae60;
             color: white;
             text-align: center;
             padding: 15px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
+            margin-top: 60px;
             font-size: 14px;
         }
     </style>
@@ -96,20 +146,68 @@
     <header>
         <h1>SiloganExpress Checkout</h1>
         <nav>
-            <a href="{{ url_for('index') }}">Home</a> |
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('menu') }}">Menu</a>
             <a href="{{ url_for('logout') }}">Logout</a>
         </nav>
     </header>
 
     <main>
-        <h2>Total Payment</h2>
-        <div class="total">₱{{ total }}</div>
-        <p class="thankyou">Thank you for ordering with <strong>SiloganExpress!</strong></p>
-        <a href="{{ url_for('index') }}" class="btn">← Back to Home</a>
+        <h2>Complete Your Payment</h2>
+
+        <div class="summary-box" id="order-summary">
+            <p><strong>Order Summary</strong></p>
+            <p>Total Amount: <span class="total">₱{{ "%.2f"|format(total) }}</span></p>
+            <p id="summary-payment">Payment Method: <em>Not selected</em></p>
+        </div>
+
+        <form method="POST" action="{{ url_for('checkout') }}">
+            <label>Full Name</label>
+            <input type="text" name="name" placeholder="Enter your full name" required>
+
+            <label>Address</label>
+            <textarea name="address" rows="3" placeholder="Enter your complete address" required></textarea>
+
+            <label>Contact Number</label>
+            <input type="tel" name="contact" placeholder="09XXXXXXXXX" pattern="[0-9]{11}" required>
+
+            <label>Payment Method</label>
+            <select name="payment_method" id="payment-method" required>
+                <option value="" disabled selected>Select Payment Method</option>
+                <option value="Cash on Delivery">💵 Cash on Delivery</option>
+                <option value="GCash">📱 GCash</option>
+                <option value="Credit/Debit Card">💳 Credit/Debit Card</option>
+            </select>
+
+            <input type="hidden" name="total" value="{{ total }}">
+            
+            <div class="btn-group">
+                <button type="submit" class="btn">Confirm Payment</button>
+                <button type="button" class="btn btn-cancel" onclick="cancelOrder()">Cancel Order</button>
+            </div>
+        </form>
     </main>
 
     <footer>
         &copy; 2025 SiloganExpress. All rights reserved.
     </footer>
+
+    <script>
+        // 🧠 Update payment summary live
+        const paymentSelect = document.getElementById('payment-method');
+        const summaryPayment = document.getElementById('summary-payment');
+
+        paymentSelect.addEventListener('change', () => {
+            const selected = paymentSelect.options[paymentSelect.selectedIndex].text;
+            summaryPayment.innerHTML = `Payment Method: <strong>${selected}</strong>`;
+        });
+
+        // 🔥 Confirmation for cancel order
+        function cancelOrder() {
+            if (confirm("Are you sure you want to cancel your order?")) {
+                window.location.href = "{{ url_for('cancel_order') }}";
+            }
+        }
+    </script>
 </body>
 </html>

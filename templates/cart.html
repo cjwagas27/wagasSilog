@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart | SiloganExpress</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f6f6f6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #27ae60;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 1.5em;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 15px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+        }
+
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+
+        .cart-container {
+            max-width: 850px;
+            margin: 40px auto;
+            background: white;
+            padding: 25px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .cart-container h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #27ae60;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: #f9f9f9;
+        }
+
+        td:last-child {
+            text-align: right;
+        }
+
+        .remove-btn {
+            background-color: #e74c3c;
+            color: white;
+            padding: 6px 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: 0.3s;
+        }
+
+        .remove-btn:hover {
+            background-color: #c0392b;
+        }
+
+        .cart-summary {
+            text-align: right;
+            margin-top: 20px;
+            font-size: 1.1em;
+        }
+
+        .cart-summary p {
+            margin: 5px 0;
+        }
+
+        .cart-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .btn {
+            border: none;
+            padding: 12px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: 0.3s;
+        }
+
+        .btn-clear {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .btn-clear:hover {
+            background-color: #c0392b;
+        }
+
+        .btn-checkout {
+            background-color: #27ae60;
+            color: white;
+        }
+
+        .btn-checkout:hover {
+            background-color: #219150;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            background: #27ae60;
+            color: white;
+            margin-top: 50px;
+        }
+
+        .empty {
+            text-align: center;
+            font-size: 1.2em;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛒 Your Cart</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('menu') }}">Menu</a></li>
+                <li><a href="{{ url_for('aboutus') }}">About Us</a></li>
+                <li><a href="{{ url_for('contact') }}">Contact</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="cart-container">
+        {% if cart and cart|length > 0 %}
+        <h2>Your Order Summary</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th style="text-align:right;">Price</th>
+                    <th style="text-align:center;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td style="text-align:right;">₱{{ "%.2f"|format(item.price) }}</td>
+                    <td style="text-align:center;">
+                        <a href="{{ url_for('remove_from_cart', item_id=item.id) }}" class="remove-btn">Remove</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="cart-summary">
+            <p><strong>Subtotal:</strong> ₱{{ "%.2f"|format(subtotal) }}</p>
+            <p><strong>Delivery Fee:</strong> ₱{{ "%.2f"|format(delivery_fee) }}</p>
+            <p><strong>Total:</strong> ₱{{ "%.2f"|format(total) }}</p>
+        </div>
+
+        <div class="cart-actions">
+            <form action="{{ url_for('clear_cart') }}" method="GET">
+                <button type="submit" class="btn btn-clear">🧹 Clear Cart</button>
+            </form>
+            <form action="{{ url_for('checkout') }}" method="GET">
+                <input type="hidden" name="total" value="{{ total }}">
+                <button type="submit" class="btn btn-checkout">💳 Proceed to Checkout</button>
+            </form>
+        </div>
+        {% else %}
+        <p class="empty">Your cart is empty 😢</p>
+        <div style="text-align:center; margin-top:20px;">
+            <a href="{{ url_for('menu') }}" class="btn btn-checkout">Go Back to Menu</a>
+        </div>
+        {% endif %}
+    </div>
+
+    <footer>
+        <p>&copy; 2025 SiloganExpress. All rights reserved.</p>
+    </footer>
+</body>
+</html>

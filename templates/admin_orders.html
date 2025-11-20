@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Orders</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background-color: #f5f8f5;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    header {
+      background-color: #2e7d32;
+      color: white;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 15px;
+      font-weight: 600;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 40px auto;
+      background: white;
+      border-radius: 16px;
+      padding: 25px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      animation: fadeIn 0.7s ease;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(15px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 25px;
+    }
+
+    .tab {
+      padding: 10px 20px;
+      background: #e0f2e9;
+      color: #2e7d32;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .tab:hover {
+      background: #2e7d32;
+      color: white;
+    }
+
+    input[type="radio"] {
+      display: none;
+    }
+
+    /* Tab Content */
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+
+    input#pending:checked ~ #pending-content,
+    input#approved:checked ~ #approved-content,
+    input#rejected:checked ~ #rejected-content {
+      display: block;
+    }
+
+    input#pending:checked + label[for="pending"],
+    input#approved:checked + label[for="approved"],
+    input#rejected:checked + label[for="rejected"] {
+      background: #2e7d32;
+      color: white;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #2e7d32;
+      color: white;
+    }
+
+    tr:hover {
+      background-color: #f5f5f5;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn {
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      color: white;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    .btn-approve { background: #2e7d32; }
+    .btn-reject { background: #ff9800; }
+    .btn-delete { background: #d32f2f; }
+
+    .btn:hover {
+      opacity: 0.9;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Admin Dashboard - Orders</h1>
+  <nav>
+    <a href="{{ url_for('index') }}">Home</a>
+    <a href="{{ url_for('logout') }}">Logout</a>
+  </nav>
+</header>
+
+<div class="container">
+  <!-- Tabs -->
+  <input type="radio" id="pending" name="tab" checked>
+  <label for="pending" class="tab">🕒 Pending</label>
+
+  <input type="radio" id="approved" name="tab">
+  <label for="approved" class="tab">✅ Approved</label>
+
+  <input type="radio" id="rejected" name="tab">
+  <label for="rejected" class="tab">❌ Rejected</label>
+
+  <!-- Pending Orders -->
+  <div id="pending-content" class="tab-content">
+    <h2>🕒 Pending Orders</h2>
+    {% if pending_orders %}
+    <table>
+      <tr>
+        <th>ID</th><th>User</th><th>Name</th><th>Address</th><th>Contact</th><th>Payment</th><th>Total (₱)</th><th>Status</th><th>Actions</th>
+      </tr>
+      {% for o in pending_orders %}
+      <tr>
+        <td>{{ o[0] }}</td>
+        <td>{{ o[1] }}</td>
+        <td>{{ o[2] }}</td>
+        <td>{{ o[3] }}</td>
+        <td>{{ o[4] }}</td>
+        <td>{{ o[5] }}</td>
+        <td>{{ o[6] }}</td>
+        <td>{{ o[7] }}</td>
+        <td>
+          <a href="{{ url_for('update_order', order_id=o[0], status='Approved') }}" class="btn btn-approve">Approve</a>
+          <a href="{{ url_for('update_order', order_id=o[0], status='Rejected') }}" class="btn btn-reject">Reject</a>
+          <a href="{{ url_for('delete_order', order_id=o[0]) }}" class="btn btn-delete">Delete</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% else %}
+    <p>No pending orders.</p>
+    {% endif %}
+  </div>
+
+  <!-- Approved Orders -->
+  <div id="approved-content" class="tab-content">
+    <h2>✅ Approved Orders</h2>
+    {% if approved_orders %}
+    <table>
+      <tr>
+        <th>ID</th><th>User</th><th>Name</th><th>Address</th><th>Contact</th><th>Payment</th><th>Total (₱)</th><th>Status</th><th>Actions</th>
+      </tr>
+      {% for o in approved_orders %}
+      <tr>
+        <td>{{ o[0] }}</td>
+        <td>{{ o[1] }}</td>
+        <td>{{ o[2] }}</td>
+        <td>{{ o[3] }}</td>
+        <td>{{ o[4] }}</td>
+        <td>{{ o[5] }}</td>
+        <td>{{ o[6] }}</td>
+        <td>{{ o[7] }}</td>
+        <td>
+          <a href="{{ url_for('update_order', order_id=o[0], status='Rejected') }}" class="btn btn-reject">Reject</a>
+          <a href="{{ url_for('delete_order', order_id=o[0]) }}" class="btn btn-delete">Delete</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% else %}
+    <p>No approved orders.</p>
+    {% endif %}
+  </div>
+
+  <!-- Rejected Orders -->
+  <div id="rejected-content" class="tab-content">
+    <h2>❌ Rejected Orders</h2>
+    {% if rejected_orders %}
+    <table>
+      <tr>
+        <th>ID</th><th>User</th><th>Name</th><th>Address</th><th>Contact</th><th>Payment</th><th>Total (₱)</th><th>Status</th><th>Actions</th>
+      </tr>
+      {% for o in rejected_orders %}
+      <tr>
+        <td>{{ o[0] }}</td>
+        <td>{{ o[1] }}</td>
+        <td>{{ o[2] }}</td>
+        <td>{{ o[3] }}</td>
+        <td>{{ o[4] }}</td>
+        <td>{{ o[5] }}</td>
+        <td>{{ o[6] }}</td>
+        <td>{{ o[7] }}</td>
+        <td>
+          <a href="{{ url_for('update_order', order_id=o[0], status='Approved') }}" class="btn btn-approve">Approve</a>
+          <a href="{{ url_for('delete_order', order_id=o[0]) }}" class="btn btn-delete">Delete</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% else %}
+    <p>No rejected orders.</p>
+    {% endif %}
+  </div>
+</div>
+
+</body>
+</html>

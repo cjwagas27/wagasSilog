@@ -6,64 +6,211 @@
     <title>Contact Us - SiloganExpress</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <style>
-        .map-container {
-            margin-top: 20px;
-            width: 100%;
-            height: 350px;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 0 10px rgba(0,0,0,0.15);
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
         }
+
+        header {
+            background-color: #2ecc71;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.8em;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        nav ul li a:hover,
+        nav ul li a.active {
+            color: #dfffe5;
+        }
+
+        /* CONTACT SECTION */
+        .contact {
+            padding: 60px 10%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 50px;
+            justify-content: center;
+            align-items: flex-start;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .contact-container {
+            flex: 1;
+            min-width: 320px;
+            max-width: 500px;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+        }
+
+        .contact-container h2 {
+            color: #27ae60;
+            margin-bottom: 15px;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0 18px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            transition: border 0.3s;
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            border-color: #27ae60;
+            outline: none;
+        }
+
+        .contact-form button {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .contact-form button:hover {
+            background-color: #219150;
+            transform: translateY(-2px);
+        }
+
+        .success-message {
+            background-color: #e8f8f5;
+            border: 1px solid #2ecc71;
+            color: #2c7a4b;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .contact-info {
+            margin-top: 30px;
+            background: #f2fff7;
+            border-radius: 15px;
+            padding: 20px;
+            font-size: 0.95em;
+        }
+
+        .branches {
+            flex: 1;
+            min-width: 320px;
+            max-width: 600px;
+        }
+
+        .branches h2 {
+            color: #27ae60;
+            margin-bottom: 20px;
+        }
+
+        .branch {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .branch:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .map-container {
+            margin-top: 10px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
         iframe {
             width: 100%;
-            height: 100%;
-            border: 0;
+            height: 220px;
+            border: none;
         }
-        .branch {
-            margin-bottom: 50px;
+
+        footer {
+            text-align: center;
+            background: #27ae60;
+            color: white;
+            padding: 15px;
+            margin-top: 50px;
+            font-size: 0.9em;
         }
-        .branch h3 {
-            color: #ff6b00;
-            margin-bottom: 8px;
-        }
-        .branch p {
-            font-size: 15px;
-            margin-bottom: 10px;
-        }
-        .branches {
-            margin-top: 40px;
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
+    <!-- HEADER -->
     <header>
         <div class="logo">
             <h1>SiloganExpress</h1>
+            <p>Welcome, {{ name }}!</p>
         </div>
         <nav>
             <ul>
-                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('menu') }}">Menu</a></li>
+                <li><a href="{{ url_for('aboutus') }}">About Us</a></li>
                 <li><a href="{{ url_for('contact') }}" class="active">Contact</a></li>
                 <li><a href="{{ url_for('logout') }}">Logout</a></li>
             </ul>
         </nav>
     </header>
 
+    <!-- CONTACT SECTION -->
     <section class="contact">
         <div class="contact-container">
             <h2>Contact Us</h2>
             <p>We’d love to hear from you! Fill out the form below or reach us through our details.</p>
 
-            <form action="#" method="POST" class="contact-form">
+            {% if success %}
+                <div class="success-message">✅ Message sent successfully!</div>
+            {% endif %}
+
+            <form action="{{ url_for('contact') }}" method="POST" class="contact-form">
                 <label>Name</label>
-                <input type="text" placeholder="Enter your name" required>
-
+                <input type="text" name="name" placeholder="Enter your name" required>
                 <label>Email</label>
-                <input type="email" placeholder="Enter your email" required>
-
+                <input type="email" name="email" placeholder="Enter your email" required>
                 <label>Message</label>
-                <textarea rows="5" placeholder="Write your message..." required></textarea>
-
+                <textarea name="message" rows="5" placeholder="Write your message..." required></textarea>
                 <button type="submit">Send Message</button>
             </form>
 
@@ -72,53 +219,38 @@
                 <p><strong>📞 Phone:</strong> +63 912 345 6789</p>
                 <p><strong>📧 Email:</strong> siloganexpress@gmail.com</p>
             </div>
+        </div>
 
-            <!-- 🌍 BRANCH LOCATIONS -->
-            <div class="branches">
-                <h2>Our Branches</h2>
+        <div class="branches">
+            <h2>Our Branches</h2>
 
-                <!-- 🥢 Branch 1: Lower Calajoan -->
-                <div class="branch">
-                    <h3>🥢 Minglanilla Branch</h3>
-                    <p>Located at Lower Calajoan, Minglanilla, Cebu.</p>
-                    <div class="map-container">
-                        <iframe 
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3924.985296309715!2d123.7897346747288!3d10.22980658987199!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a994f90a32c3d3%3A0xa3b0c8087a6c8b39!2sLower%20Calajoan%2C%20Minglanilla%2C%20Cebu!5e0!3m2!1sen!2sph!4v1734016543210!5m2!1sen!2sph" 
-                            allowfullscreen="" 
-                            loading="lazy">
-                        </iframe>
-                    </div>
+            <div class="branch">
+                <h3>🥢 Minglanilla Branch</h3>
+                <p>Located at Lower Calajoan, Minglanilla, Cebu.</p>
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3924.985296309715!2d123.7897346747288!3d10.22980658987199!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a994f90a32c3d3%3A0xa3b0c8087a6c8b39!2sLower%20Calajoan%2C%20Minglanilla%2C%20Cebu!5e0!3m2!1sen!2sph!4v1734016543210!5m2!1sen!2sph" allowfullscreen loading="lazy"></iframe>
                 </div>
+            </div>
 
-                <!-- 🛍️ Branch 2: SM City Cebu -->
-                <div class="branch">
-                    <h3>🛍️ SM City Cebu Branch</h3>
-                    <p>Visit us inside SM City Cebu, North Reclamation Area, Cebu City.</p>
-                    <div class="map-container">
-                        <iframe 
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.367736984885!2d123.91725927473464!3d10.315699989850766!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a9993a0b1cfb4d%3A0xe7c94d6788c2a4cc!2sSM%20City%20Cebu!5e0!3m2!1sen!2sph!4v1734016578901!5m2!1sen!2sph" 
-                            allowfullscreen="" 
-                            loading="lazy">
-                        </iframe>
-                    </div>
+            <div class="branch">
+                <h3>🛍️ SM City Cebu Branch</h3>
+                <p>Visit us inside SM City Cebu, North Reclamation Area, Cebu City.</p>
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.367736984885!2d123.91725927473464!3d10.315699989850766!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a9993a0b1cfb4d%3A0xe7c94d6788c2a4cc!2sSM%20City%20Cebu!5e0!3m2!1sen!2sph!4v1734016578901!5m2!1sen!2sph" allowfullscreen loading="lazy"></iframe>
                 </div>
+            </div>
 
-                <!-- 🍴 Branch 3: Manila -->
-                <div class="branch">
-                    <h3>🍴 Manila Branch</h3>
-                    <p>Located inside Robinsons Place Manila, Ermita.</p>
-                    <div class="map-container">
-                        <iframe 
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3859.591896047692!2d120.98166337479735!3d14.577021885914084!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397ca1f69359f4f%3A0xf37312f14b51838b!2sRobinsons%20Place%20Manila!5e0!3m2!1sen!2sph!4v1734016612345!5m2!1sen!2sph" 
-                            allowfullscreen="" 
-                            loading="lazy">
-                        </iframe>
-                    </div>
+            <div class="branch">
+                <h3>🍴 Manila Branch</h3>
+                <p>Located inside Robinsons Place Manila, Ermita.</p>
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3859.591896047692!2d120.98166337479735!3d14.577021885914084!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397ca1f69359f4f%3A0xf37312f14b51838b!2sRobinsons%20Place%20Manila!5e0!3m2!1sen!2sph!4v1734016612345!5m2!1sen!2sph" allowfullscreen loading="lazy"></iframe>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- FOOTER -->
     <footer>
         <p>&copy; 2025 SiloganExpress. All rights reserved.</p>
     </footer>
